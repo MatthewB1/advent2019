@@ -4,12 +4,17 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strconv"
+	"strings"
 )
 
 func main() {
+	part1()
+	part2()
+}
+
+func readInputs(path string) [][]string {
 	//open file
-	file, err := os.Open("modules.txt")
+	file, err := os.Open(path)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(0)
@@ -20,21 +25,12 @@ func main() {
 	scanner := bufio.NewScanner(file)
 	scanner.Split(bufio.ScanLines)
 
-	total := 0
+	inputs := [][]string{}
 
 	//iterate over
 	for scanner.Scan() {
-		mass, err := strconv.Atoi(scanner.Text())
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(0)
-		}
-
-		fuel := int(mass/3) - 2
-
-		total += fuel
+		input := strings.Split(scanner.Text(), ",")
+		inputs = append(inputs, input)
 	}
-
-	fmt.Println("Total fuel required:", total)
-	part2()
+	return inputs
 }
